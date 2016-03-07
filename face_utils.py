@@ -23,7 +23,7 @@ models = {
 }
 
 
-def find_largest_face(gray):
+def find_faces(gray):
     """
     Uses Viola-Jones to find face with greatest area
     Args: gray - grayscale of image to be searched
@@ -33,21 +33,24 @@ def find_largest_face(gray):
 
     all_faces = faceCascade.detectMultiScale(
         image=gray,
-        scaleFactor=1.1,
-        minNeighbors=1,
+        scaleFactor=1.3,
+        minNeighbors=3,
+        #minSize=(45,45)
     )
-
     if len(all_faces) == 0:
         return None
-    elif len(all_faces) == 1:
-        face_coords = all_faces[0]
+
+    return all_faces
+
+def find_largest_face(gray):
+    all_faces = find_faces(gray)
+    if all_faces is None:
+        return None
     else:
         areas = [area_of(face) for face in all_faces]
         face_coords = all_faces[areas.index(max(areas))]
 
-    x, y, w, h = face_coords
-    face_splice = gray[y:y+h, x:x+w]
-    return face_coords, face_splice
+    return face_coords
 
 
 class Face:
@@ -82,7 +85,7 @@ class Face:
 
         all_eyes = eyeCascade.detectMultiScale(
             image=self.splice,
-            scaleFactor=1.05,
+            scaleFactor=1.1,
             minNeighbors=1
         )
 
@@ -98,10 +101,10 @@ class Face:
             # get left and right eye
             if x1 > x2:
                 x1, y1, x2, y2 = x2, y2, x1, y1
-            # calculate angle between them
-            angle = angle_between((x1, y1, x2, y2))
             # make sure they're on opposite halves of face
             if x1 < self.width/2 and x2 > self.width/2:
+                # calculate angle between them
+                angle = angle_between((x1, y1, x2, y2))
                 # update values if at a smaller angle
                 if fabs(angle) < fabs(self.eye_angle):
                     self.eyes_coords, self.eye_angle = [(x1, y1), (x2, y2)], angle
