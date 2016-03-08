@@ -28,10 +28,10 @@ def process_image_dsift(imagename,resultname,size=20,steps=10,force_orientation=
     savetxt('tmp.frame',frame.T,fmt='%03.3f')
     
     if force_orientation:
-        cmmd = str("./vlfeat-0.9.16/bin/maci64/sift "+imagename+" --output="+resultname+
+        cmmd = str("./sift "+imagename+" --output="+resultname+
                     " --read-frames=tmp.frame --orientations")
     else:
-        cmmd = str("./vlfeat-0.9.16/bin/maci64/sift "+imagename+" --output="+resultname+
+        cmmd = str("./sift "+imagename+" --output="+resultname+
                     " --read-frames=tmp.frame")
     os.system(cmmd)
     # print 'processed', imagename, 'to', resultname
