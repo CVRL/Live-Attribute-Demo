@@ -1,5 +1,7 @@
 import cv2
 import os
+import sys
+import getopt
 import numpy as np
 import time
 
@@ -191,17 +193,63 @@ def process_media(current_trait=0, media_type=1, seconds=-1, multi_faces=False, 
         videoFile = None
 
 
-if __name__ == '__main__':
-    process_media(
-        current_trait=0,
-        media_type=1,
-        seconds=-1,
-        multi_faces=True,
-        debug=False,
-        infile='still.jpg',
-        outfile='out.jpg',
-        fps=24,
-        scalefactor=1,
-        screen_loc=(0, 0)
-    )
+def main(argv):
+    
+    def usage():
+        print 'Options:\n'
+        print '-r, --media, arg: int: 1 for webcam, 2 for video, 3 for image\n'
+        print '-t, --trait, arg: int: 0 for trustworthiness, 1 for dominance\n'
+        print '-l, --length, arg: int: time in seconds, -1 for continuous, 0 for single frame\n'
+        print '-m, --multi, turn ON multiple faces option\n'
+        print '-d, --debug, turn ON debug option\n'
+        print '-i, --infile, arg: string:  image or video to read\n'
+        print '-o, --outfile, arg: string: image or video to write\n'
+        print '-f, --fps, arg: int: frames per second of ouput video\n'
+        print '-s, --scale, arg: float: scale size of window display\n'
+        print '-x, --x, arg: int: x coordinate of window display on screen\n'
+        print '-y, --y, arg: int: y coordinate of window display on screen\n'
+
+    try:
+        opts, args = getopt.getopt(argv, 'r:t:l:mdi:o:f:s:x:y:h', ['media=', 'trait=', 'length=', 'multi', 'debug', 'infile=', 'outfile=', 'fps=', 'scale=', '--x=', '--y=', '--help'])
+    except getopt.GetoptError:
+        sys.exit(1)
+
+    defaults=(0, 1, -1, False, False, '', '', 0, 1.0, (0,0))
+    current_trait, media_type, seconds, multi_faces, debug, infile, outfile, fps, scalefactor, screen_loc = defaults
+    for opt, arg in opts:
+        if opt in ['-r', '--media']:
+            media_type=int(arg)
+        elif opt in ['-t', '--trait']:
+            current_trait=int(arg)
+        elif opt in ['-l', '--length']:
+            seconds=int(arg)
+        elif opt in ['-m', '--multi']:
+            multi_faces=1
+        elif opt in ['-d', '--debug']:
+            debug=1
+        elif opt in ['-i', '--infile']:
+            infile=arg
+        elif opt in ['-o', '--outfile']:
+            outfile=arg
+        elif opt in ['-f', '--fps']:
+            fps=float(arg)
+        elif opt in ['-s', '--scale']:
+            scalefactor=float(arg)
+        elif opt in ['-x', '--x']:
+            screen_loc[0]=int(arg)
+        elif opt in ['-y', '--y']:
+            screen_loc[1]=int(arg)
+        elif opt in ['-h', '--help']:
+            usage()
+            sys.exit(0)
+
+        else:
+            print 'invalid option: ' + opt
+            sys.exit(1)
+        
+    process_media(current_trait, media_type, seconds, multi_faces, infile, outfile, fps, scalefactor, screen_loc, debug)
+  
+
+if __name__ == '__main__': 
+    main(sys.argv[1:])
 

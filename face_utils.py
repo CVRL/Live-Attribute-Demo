@@ -1,7 +1,9 @@
 import cv2
+import sys
 import os
 from itertools import combinations
 
+sys.path.insert(0, './liblinear/python/')
 from liblinearutil import predict
 from liblinearutil import svm_read_problem
 from liblinearutil import load_model

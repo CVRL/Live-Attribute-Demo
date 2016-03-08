@@ -6,7 +6,7 @@ This is a demo that exhibits personality trait judgment using shallow features i
 #Installation:
 Download Repository
 
-$ git clone https://github.com/CVRL/Live-Attribute-Demo.git
+    $ git clone https://github.com/CVRL/Live-Attribute-Demo.git
 
 Download and symlink vlfeat
 
