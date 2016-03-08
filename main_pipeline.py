@@ -196,11 +196,11 @@ if __name__ == '__main__':
         current_trait=0,
         media_type=1,
         seconds=-1,
-        multi_faces=False,
+        multi_faces=True,
         debug=False,
-        infile='',
-        outfile='',
-        fps=0,
+        infile='still.jpg',
+        outfile='out.jpg',
+        fps=24,
         scalefactor=1,
         screen_loc=(0, 0)
     )
