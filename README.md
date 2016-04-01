@@ -61,14 +61,14 @@ Analyze all potential faces with valid eyes
 
     -s, --scale= (scale factor)
 
-scale size of final display (does not affect scale of outfile)
+scale size of final display
 
 
     -x, --x= (x coordinate)
 
     -y, --y= (y coordinate) 
 
-x, y coordinates of display on screen (does not affect scale of outfile)
+x, y coordinates of display on screen
 
 
 
@@ -114,12 +114,11 @@ Directory holding all image files, processed will be put in directory/processed/
 
 
 #Examples:
-(Send verbose output from external functions to /dev/null for convenience)
 
 
 Continuous live demo with only one face
 
-    $ python processLive.py >/dev/null
+    $ python processLive.py
 
 
 
@@ -129,9 +128,9 @@ Continouous live demo with only one face, analyzing dominance
 
 
 
-Analyze videos in ./movies/ for dominance with multiple face analysis and save to 'matrix_dom.mov'
+Analyze videos in ./movies/ for dominance with multiple face analysis and save in ./movies/processed/
 
-    $ python processVideos.py --dir=./movies --multi --trait=1 >/dev/null
+    $ python processVideos.py --dir=./movies --multi --trait=1 
 
 
 
