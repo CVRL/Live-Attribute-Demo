@@ -38,53 +38,25 @@ Download liblinear
 
 
 #Usage:
-$ python main_pipeline.py [OPTIONS]
+
+There are three main files: processLive.py, processImages.py, processVideo.py
+
+
+    $ python processLive.py [OPTIONS]
+
+Live Demo from webcam
+
 
 OPTIONS and Arguments:
 
     -t, --trait= (current_trait)
 
-number corresponding to trait in list, 'traits', i.e. 0 is Trustworthiness
-
-
-    -r, --media= (media_type)
-
-1 for webcam,
-
-2 for pre recorded video,
-
-3 for still picture
-
-
-    -l, --length= (seconds)
-
-negative (i.e. -1) for a still image, a continuous demo, or all of a video
-
-0 to save single webcam frame or video frame
-
-positive (i.e. 1) for desired duration of outupt video, or desired duration of webcam demo in seconds
+number corresponding to trait in list, 'traits', i.e. 0 is Trustworthiness, 1 is Dominance
 
 
     -m, --multi
 
 Analyze all potential faces with valid eyes
-
-
-    -i, --infile= (input file)
-
-name of input file for prerecorded video or single image
-
-
-
-    -o, --outfile= (output file)
-
-name of output file for single image or video
-
-
-
-    -f, --fps= (frames per second)
-
-frames per second of output video
 
 
     -s, --scale= (scale factor)
@@ -100,31 +72,66 @@ x, y coordinates of display on screen (does not affect scale of outfile)
 
 
 
+
+    $python processVideos.py [OPTIONS]
+
+Processes all mp4 and avi videos in a given directory
+
+
+OPTIONS and Arguments:
+
+    -t, --trait= (current_trait)
+
+number corresponding to trait in list, 'traits', i.e. 0 is Trustworthiness, 1 is Dominance
+
+
+    -m, --multi
+
+Analyze all potential faces with valid eyes
+
+    -d, --dir= (directory)
+
+Directory holding all video files, processed will be put in directory/processed/
+
+    
+    $python processImages.py [OPTIONS]
+
+
+Processes all jpg videos in a given directory
+
+
+OPTIONS and Arguments:
+
+    -t, --trait= (current_trait)
+
+number corresponding to trait in list, 'traits', i.e. 0 is Trustworthiness, 1 is Dominance
+
+
+    -d, --dir= (directory)
+
+Directory holding all image files, processed will be put in directory/processed/
+
+
+
 #Examples:
 (Send verbose output from external functions to /dev/null for convenience)
 
 
 Continuous live demo with only one face
 
-    $ python main_pipeline.py >/dev/null
+    $ python processLive.py >/dev/null
 
 
 
 Continouous live demo with only one face, analyzing dominance
 
-    $ python main_pipeline.py -t1 >/dev/null
+    $ python main_pipeline.py --trait=1
 
 
 
-Live demo for ten seconds with multiple face analysis
+Analyze videos in ./movies/ for dominance with multiple face analysis and save to 'matrix_dom.mov'
 
-    $ python main_pipeline.py --media=1 --length=10 --multi  >/dev/null
-
-
-
-Analyze 5 seconds of video 'matrix.mp4' (fps 24) for dominance with multiple face analysis and save to 'matrix_dom.mov'
-
-    $ python main_pipeline.py --media=2 --length=5 --infile=matrix.mp4 --outfile=matrix_dom.mov --multi --trait=1 --fps=24 >/dev/null
+    $ python processVideos.py --dir=./movies --multi --trait=1 >/dev/null
 
 
 
